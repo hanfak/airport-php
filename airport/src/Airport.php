@@ -8,7 +8,9 @@ class Airport
   private $planes;
   private $capacity;
 
-  public function __construct($weather, $capacity)
+  const DEFAULT_CAPACITY = 10;
+
+  public function __construct($weather, $capacity = self::DEFAULT_CAPACITY)
   {
     $this->planes = [];
     $this->weather = $weather;

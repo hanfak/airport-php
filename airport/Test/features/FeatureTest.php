@@ -12,7 +12,7 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
   public function UserStory1()
   {
     $weather = new Weather();
-    $airport = new Airport($weather,10);
+    $airport = new Airport($weather);
     $plane = new Plane();
 
     $airport->instructToLand($plane);
@@ -31,7 +31,7 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
     $weather->expects($this->any())
          ->method("isStormy")
          ->will($this->returnValue(false));
-     $airport = new Airport($weather,10);
+     $airport = new Airport($weather);
 
     $airport->instructToLand($plane);
     $airport->instructToTakeOff($plane);
@@ -54,7 +54,7 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
     $weather->expects($this->at(1))
       ->method("isStormy")
       ->will($this->returnValue(true));
-    $airport = new Airport($weather,10);
+    $airport = new Airport($weather);
 
     $airport->instructToLand($plane);
 
@@ -74,7 +74,7 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
     $weather->expects($this->once())
          ->method("isStormy")
          ->will($this->returnValue(true));
-    $airport = new Airport($weather,10);
+    $airport = new Airport($weather);
 
 
     $this->setExpectedException(\RuntimeException::class);
@@ -111,26 +111,17 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
   public function UserStory6()
   {
     $plane = new Plane();
-        // $weather = new Weather();
     $weather = $this->getMock('weather', ["isStormy"]);
     $weather->expects($this->any())
          ->method("isStormy")
          ->will($this->returnValue(false));
-        //  set cap in init
-    $airport = new Airport($weather,10);
-    // loop running this function up to set cap
-    // $plane = new Plane();
-    for($counter = 1; $counter <11; $counter++)
+    $airport = new Airport($weather,5);
+    for($counter = 1; $counter <6; $counter++)
     {
       $airport->instructToLand($plane);
     }
 
     $this->setExpectedException(\RuntimeException::class);
     $airport->instructToLand($plane);
-
-    // $this->assertContains($plane1, $airport->viewHanger());
-    // $this->assertFalse(in_array($plane2, $airport->viewHanger()));
-    // $this->assertTrue($plane1->isAtAiport());
-    // $this->assertFalse($plane2->isAtAiport());
   }
 }

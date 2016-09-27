@@ -11,7 +11,7 @@ class AirportTest extends \PHPUnit_Framework_TestCase
     parent::setUp();
     $this->plane = $this->getMock('Plane', ["land", "takeOff"]);
     $this->weather = $this->getMock('weather', ["isStormy"]);
-    $this->airport = new Airport($this->weather,10);
+    $this->airport = new Airport($this->weather);
   }
 
   public function test1StoresPlaneInHangerOnLanding()
@@ -96,5 +96,21 @@ class AirportTest extends \PHPUnit_Framework_TestCase
     $this->setExpectedException(\RuntimeException::class);
 
     $this->airport->instructToLand($this->plane);
+  }
+
+  public function test8ChangeTheCapacity()
+  {
+    $this->weather->expects($this->any())
+           ->method("isStormy")
+           ->will($this->returnValue(false));
+    $this->airport1 = new Airport($this->weather,5);
+    for($counter = 1; $counter <6; $counter++)
+    {
+      $this->airport1->instructToLand($this->plane);
+    }
+
+    $this->setExpectedException(\RuntimeException::class);
+
+    $this->airport1->instructToLand($this->plane);
   }
 }
