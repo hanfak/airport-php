@@ -19,7 +19,7 @@ class Airport
 
   public function instructToLand($plane)
   {
-    $this->checkPlaneCanLand();
+    $this->checkPlaneCanLand($plane);
     $plane->land();
     array_push($this->planes, $plane);
   }
@@ -36,13 +36,16 @@ class Airport
     return $this->planes;
   }
 
-  private function checkPlaneCanLand()
+  private function checkPlaneCanLand($plane)
   {
     if($this->weather->isStormy()) {
       throw new \RuntimeException("it is stormy to land");
     }
     if($this->capacity <= sizeOf($this->planes)) {
       throw new \RuntimeException("Cannot land, airport is full");
+    }
+    if(in_array($plane, $this->planes)) {
+      throw new \RuntimeException("Cannot land, plane already at aiport");
     }
   }
 

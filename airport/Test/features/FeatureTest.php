@@ -118,10 +118,26 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
     $airport = new Airport($weather,5);
     for($counter = 1; $counter <6; $counter++)
     {
-      $airport->instructToLand($plane);
+      $airport->instructToLand(new Plane());
     }
 
     $this->setExpectedException(\RuntimeException::class);
     $airport->instructToLand($plane);
   }
+
+  /** @test */
+  public function UserStory7()
+  {
+    $plane = new Plane();
+    $weather = $this->getMock('weather', ["isStormy"]);
+    $weather->expects($this->any())
+         ->method("isStormy")
+         ->will($this->returnValue(false));
+    $airport = new Airport($weather);
+    $airport->instructToLand($plane);
+
+    $this->setExpectedException(\RuntimeException::class);
+    $airport->instructToLand($plane);
+  }
+
 }

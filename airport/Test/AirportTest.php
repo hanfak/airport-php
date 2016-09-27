@@ -10,6 +10,7 @@ class AirportTest extends \PHPUnit_Framework_TestCase
   {
     parent::setUp();
     $this->plane = $this->getMock('Plane', ["land", "takeOff"]);
+    $this->plane1 = $this->getMock('Plane', ["land", "takeOff"]);
     $this->weather = $this->getMock('weather', ["isStormy"]);
     $this->airport = new Airport($this->weather);
   }
@@ -92,7 +93,8 @@ class AirportTest extends \PHPUnit_Framework_TestCase
            ->will($this->returnValue(false));
     for($counter = 1; $counter <11; $counter++)
     {
-      $this->airport->instructToLand($this->plane);
+      $diff_plane = $this->getMock('Plane', ["land", "takeOff"]);
+      $this->airport->instructToLand($diff_plane);
     }
 
     $this->setExpectedException(\RuntimeException::class);
@@ -108,11 +110,24 @@ class AirportTest extends \PHPUnit_Framework_TestCase
     $this->airport1 = new Airport($this->weather,5);
     for($counter = 1; $counter <6; $counter++)
     {
-      $this->airport1->instructToLand($this->plane);
+      $diff_plane = $this->getMock('Plane', ["land", "takeOff"]);
+      $this->airport1->instructToLand($diff_plane);
     }
 
     $this->setExpectedException(\RuntimeException::class);
 
-    $this->airport1->instructToLand($this->plane);
+    $this->airport1->instructToLand($this->plane1);
+  }
+
+  public function test8CannotLandPlaneIfAtAirport()
+  {
+    $this->weather->expects($this->any())
+           ->method("isStormy")
+           ->will($this->returnValue(false));
+    $this->airport->instructToLand($this->plane);
+
+    $this->setExpectedException(\RuntimeException::class);
+
+    $this->airport->instructToLand($this->plane);
   }
 }
