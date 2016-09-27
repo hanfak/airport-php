@@ -8,11 +8,11 @@ class Airport
   private $planes;
   private $capacity;
 
-  public function __construct($weather)
+  public function __construct($weather, $capacity)
   {
     $this->planes = [];
     $this->weather = $weather;
-    $this->capacity = 1;
+    $this->capacity = $capacity;
   }
 
   public function instructToLand($plane)

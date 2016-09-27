@@ -4,6 +4,8 @@ namespace airport\src;
 
 class Plane
 {
+  private $atAirport;
+  
   public function __construct()
   {
     $this->atAirport = false;
