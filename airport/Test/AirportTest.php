@@ -13,7 +13,7 @@ class AirportTest extends \PHPUnit_Framework_TestCase
     $this->plane = $this->getMock('Plane', ["land"]);
   }
 
-  public function test1StoresPlaneInHanger()
+  public function test1StoresPlaneInHangerOnLanding()
   {
     $this->airport->instructToLand($this->plane);
 
@@ -26,5 +26,13 @@ class AirportTest extends \PHPUnit_Framework_TestCase
          ->method("land");
 
     $this->airport->instructToLand($this->plane);
+  }
+
+  public function test3PlaneRemovesPlaneOnTakeOff()
+  {
+    $this->airport->instructToLand($this->plane);
+    $this->airport->instructToTakeOff();
+
+    $this->assertEquals(0, sizeof($this->airport->viewHanger()));
   }
 }

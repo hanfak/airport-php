@@ -30,7 +30,7 @@ Install composer follow the instructions here https://www.abeautifulsite.net/ins
 
 to setup ```composer install```
 
-to run tests ```./vendor/bin/phpunit```
+to run tests ```./vendor/bin/phpunit --testdox```
 
 ### User Stories being met
 ```
