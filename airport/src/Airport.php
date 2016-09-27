@@ -24,11 +24,11 @@ class Airport
     array_push($this->planes, $plane);
   }
 
-  public function instructToTakeOff($plane)
+  public function instructToTakeOff()
   {
     $this->checkPlaneCanTakeOff();
+    $plane = array_pop($this->planes);
     $plane->takeOff();
-    array_pop($this->planes);
   }
 
   public function viewHanger()
