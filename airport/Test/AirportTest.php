@@ -15,6 +15,8 @@ class AirportTest extends \PHPUnit_Framework_TestCase
 
     public function test1()
     {
+      $this->airport->instructToLand('plane');
 
+      $this->assertEquals(['plane'], $this->airport->viewHanger());
     }
 }
