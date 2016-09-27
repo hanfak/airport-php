@@ -16,6 +16,9 @@ class AirportTest extends \PHPUnit_Framework_TestCase
 
   public function test1StoresPlaneInHangerOnLanding()
   {
+    $this->weather->expects($this->once())
+         ->method("isStormy")
+         ->will($this->returnValue(false));
     $this->airport->instructToLand($this->plane);
 
     $this->assertEquals([$this->plane], $this->airport->viewHanger());
@@ -23,6 +26,9 @@ class AirportTest extends \PHPUnit_Framework_TestCase
 
   public function test2PlaneLandMethodIsCalled()
   {
+    $this->weather->expects($this->once())
+         ->method("isStormy")
+         ->will($this->returnValue(false));
     $this->plane->expects($this->once())
          ->method("land");
 
@@ -31,7 +37,7 @@ class AirportTest extends \PHPUnit_Framework_TestCase
 
   public function test3PlaneRemovesPlaneOnTakeOff()
   {
-    $this->weather->expects($this->once())
+    $this->weather->expects($this->any())
          ->method("isStormy")
          ->will($this->returnValue(false));
     $this->airport->instructToLand($this->plane);
@@ -53,13 +59,27 @@ class AirportTest extends \PHPUnit_Framework_TestCase
 
   public function test5PlaneCannotTakeOffWhenStormy()
   {
-    $this->weather->expects($this->once())
-           ->method("isStormy")
-           ->will($this->returnValue(true));
+    $this->weather->expects($this->at(0))
+      ->method("isStormy")
+      ->will($this->returnValue(false));
+    $this->weather->expects($this->at(1))
+      ->method("isStormy")
+      ->will($this->returnValue(true));
     $this->airport->instructToLand($this->plane);
 
     $this->setExpectedException(\RuntimeException::class);
 
     $this->airport->instructToTakeOff($this->plane);
+  }
+
+  public function test6PlaneCannotLandWhenStormy()
+  {
+    $this->weather->expects($this->once())
+           ->method("isStormy")
+           ->will($this->returnValue(true));
+
+    $this->setExpectedException(\RuntimeException::class);
+
+    $this->airport->instructToLand($this->plane);
   }
 }

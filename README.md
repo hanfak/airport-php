@@ -69,4 +69,17 @@ US6
 As the system designer
 So that the software can be used for many different airports
 I would like a default airport capacity that can be overridden as appropriate
+
+US7
+
+As an air traffic controller
+To avoid errors and sabotaged planes
+I want to prevent landing when plane is at airport
+
+US8
+
+As an air traffic controller
+To avoid errors and sabotaged planes
+I want to prevent take off when plane is not at airport
+
 ```

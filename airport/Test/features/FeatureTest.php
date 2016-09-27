@@ -28,7 +28,7 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
     // Stubbing only the method, rather than mocking object???
     $plane = new Plane();
     $weather = $this->getMock('weather', ["isStormy"]);
-    $weather->expects($this->once())
+    $weather->expects($this->any())
          ->method("isStormy")
          ->will($this->returnValue(false));
      $airport = new Airport($weather);
@@ -48,9 +48,12 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
     $plane = new Plane();
     // $weather = new Weather();
     $weather = $this->getMock('weather', ["isStormy"]);
-    $weather->expects($this->once())
+    $weather->expects($this->at(0))
          ->method("isStormy")
-         ->will($this->returnValue(true));
+         ->will($this->returnValue(false));
+    $weather->expects($this->at(1))
+      ->method("isStormy")
+      ->will($this->returnValue(true));
     $airport = new Airport($weather);
 
     $airport->instructToLand($plane);
@@ -60,5 +63,24 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
     // Check plane has not left airport
     $this->assertContains($plane, $airport->viewHanger());
     $this->assertTrue($plane->isAtAiport());
+  }
+
+  /** @test */
+  public function UserStory4()
+  {
+    $plane = new Plane();
+    // $weather = new Weather();
+    $weather = $this->getMock('weather', ["isStormy"]);
+    $weather->expects($this->once())
+         ->method("isStormy")
+         ->will($this->returnValue(true));
+    $airport = new Airport($weather);
+
+
+    $this->setExpectedException(\RuntimeException::class);
+    $airport->instructToLand($plane);
+    // Check plane has not arrived at airport
+    $this->assertEmpty($PlanesInAirport);
+    $this->assertFalse($plane->isAtAiport());
   }
 }

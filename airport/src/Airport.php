@@ -5,6 +5,7 @@ namespace airport\src;
 class Airport
 {
   private $weather;
+  private $planes;
 
   public function __construct($weather)
   {
@@ -14,6 +15,9 @@ class Airport
 
   public function instructToLand($plane)
   {
+    if($this->weather->isStormy()) {
+      throw new \RuntimeException("it is stormy to land");
+    }
     $plane->land();
     array_push($this->planes, $plane);
   }
