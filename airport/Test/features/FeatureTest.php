@@ -22,13 +22,15 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
   /** @test */
   public function UserStory2()
   {
-    // $airport = new Airport();
-    // $plane = new Plane();
-    //
-    // $airport->instructToLand($plane);
-    // $airport->instructToTakeOff();
-    //
-    // $this->assertEquals([], $airport->viewHanger());
-    // $this->assertFalse($plane->isAtAiport());
+    $airport = new Airport();
+    $plane = new Plane();
+
+    $airport->instructToLand($plane);
+    $airport->instructToTakeOff($plane);
+
+    $PlanesInAirport = $airport->viewHanger();
+
+    $this->assertEmpty($PlanesInAirport);
+    $this->assertFalse($plane->isAtAiport());
   }
 }

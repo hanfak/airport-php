@@ -15,10 +15,12 @@ class Airport
     array_push($this->planes, $plane);
   }
 
-  public function instructToTakeOff()
+  public function instructToTakeOff($plane)
   {
+    $plane->takeOff();
     array_pop($this->planes);
   }
+
   public function viewHanger()
   {
     return $this->planes;

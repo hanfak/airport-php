@@ -14,6 +14,11 @@ class Plane
     $this->atAirport = true;
   }
 
+  public function takeOff()
+  {
+    $this->atAirport = false;
+  }
+
   public function isAtAiport()
   {
     return $this->atAirport;
