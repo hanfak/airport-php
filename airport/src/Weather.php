@@ -6,6 +6,6 @@ class Weather
 {
   public function isStormy()
   {
-    return rand(1,10)>7;
+    return rand(1, 10) > 7;
   }
 }

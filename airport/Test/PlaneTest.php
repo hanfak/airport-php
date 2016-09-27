@@ -24,7 +24,7 @@ class PlaneTest extends \PHPUnit_Framework_TestCase
     $this->assertTrue($this->plane->isAtAiport());
   }
 
-  public function test2PlaneNotAtAirportAfterTakeOff()
+  public function test3PlaneNotAtAirportAfterTakeOff()
   {
     $this->plane->land();
     $this->plane->takeOff();

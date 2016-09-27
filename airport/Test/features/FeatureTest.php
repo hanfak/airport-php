@@ -59,6 +59,7 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
     $airport->instructToLand($plane);
 
     $this->setExpectedException(\RuntimeException::class);
+    
     $airport->instructToTakeOff($plane);
     // Check plane has not left airport
     $this->assertContains($plane, $airport->viewHanger());
@@ -76,8 +77,8 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
          ->will($this->returnValue(true));
     $airport = new Airport($weather);
 
-
     $this->setExpectedException(\RuntimeException::class);
+
     $airport->instructToLand($plane);
     // Check plane has not arrived at airport
     $this->assertEmpty($PlanesInAirport);
@@ -116,12 +117,14 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
          ->method("isStormy")
          ->will($this->returnValue(false));
     $airport = new Airport($weather,5);
+
     for($counter = 1; $counter <6; $counter++)
     {
       $airport->instructToLand(new Plane());
     }
 
     $this->setExpectedException(\RuntimeException::class);
+
     $airport->instructToLand($plane);
   }
 
@@ -137,6 +140,7 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
     $airport->instructToLand($plane);
 
     $this->setExpectedException(\RuntimeException::class);
+
     $airport->instructToLand($plane);
   }
 
@@ -151,7 +155,7 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
     $airport = new Airport($weather);
 
     $this->setExpectedException(\RuntimeException::class);
+
     $airport->instructToTakeOff($plane);
   }
-
 }

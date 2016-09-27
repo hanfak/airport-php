@@ -10,10 +10,11 @@ class Airport
 
   const DEFAULT_CAPACITY = 10;
 
-  public function __construct($weather, $capacity = self::DEFAULT_CAPACITY)
+  public function __construct($weather,
+            $capacity = self::DEFAULT_CAPACITY)
   {
-    $this->planes = [];
-    $this->weather = $weather;
+    $this->planes   = [];
+    $this->weather  = $weather;
     $this->capacity = $capacity;
   }
 
@@ -28,7 +29,7 @@ class Airport
   {
     $this->checkPlaneCanTakeOff($plane);
     if(in_array($plane, $this->planes)) {
-      unset($this->planes[array_search($plane,$this->planes)]);
+      unset( $this->planes[ array_search( $plane, $this->planes ) ] );
       $plane->takeOff();
     }
   }
