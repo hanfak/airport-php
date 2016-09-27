@@ -83,4 +83,27 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
     $this->assertEmpty($PlanesInAirport);
     $this->assertFalse($plane->isAtAiport());
   }
+
+  /** @test */
+  public function UserStory5()
+  {
+    $plane1 = new Plane();
+    $plane2 = new Plane();
+        // $weather = new Weather();
+    $weather = $this->getMock('weather', ["isStormy"]);
+    $weather->expects($this->any())
+         ->method("isStormy")
+         ->will($this->returnValue(false));
+    $airport = new Airport($weather);
+
+    $airport->instructToLand($plane1);
+
+    $this->setExpectedException(\RuntimeException::class);
+    $airport->instructToLand($plane2);
+
+    $this->assertContains($plane1, $airport->viewHanger());
+    $this->assertFalse(in_array($plane2, $airport->viewHanger()));
+    $this->assertTrue($plane1->isAtAiport());
+    $this->assertFalse($plane2->isAtAiport());
+  }
 }

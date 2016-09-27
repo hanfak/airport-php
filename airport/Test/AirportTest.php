@@ -82,4 +82,16 @@ class AirportTest extends \PHPUnit_Framework_TestCase
 
     $this->airport->instructToLand($this->plane);
   }
+
+  public function test7PlaneCannotLandWhenAirportIsFull()
+  {
+    $this->weather->expects($this->any())
+           ->method("isStormy")
+           ->will($this->returnValue(false));
+    $this->airport->instructToLand($this->plane);
+
+    $this->setExpectedException(\RuntimeException::class);
+
+    $this->airport->instructToLand($this->plane);
+  }
 }
