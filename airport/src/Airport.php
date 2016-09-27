@@ -11,8 +11,8 @@ class Airport
 
   public function instructToLand($plane)
   {
-    array_push($this->planes, $plane);
     $plane->land();
+    array_push($this->planes, $plane);
   }
 
   public function viewHanger()

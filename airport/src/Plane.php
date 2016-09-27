@@ -18,5 +18,4 @@ class Plane
   {
     return $this->atAirport;
   }
-
 }

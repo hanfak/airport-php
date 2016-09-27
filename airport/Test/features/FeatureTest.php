@@ -7,15 +7,15 @@ use airport\src\Plane;
 
 class FeatureTest extends \PHPUnit_Framework_TestCase
 {
-    /** @test */
-    public function UserStory1()
-    {
-      $airport = new Airport();
-      $plane = new Plane();
+  /** @test */
+  public function UserStory1()
+  {
+    $airport = new Airport();
+    $plane = new Plane();
 
-      $airport->instructToLand($plane);
+    $airport->instructToLand($plane);
 
-      $this->assertContains($plane, $airport->viewHanger());
-      $this->assertTrue($plane->isAtAiport());
-    }
+    $this->assertContains($plane, $airport->viewHanger());
+    $this->assertTrue($plane->isAtAiport());
+  }
 }
