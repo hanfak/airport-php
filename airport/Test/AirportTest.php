@@ -9,8 +9,9 @@ class AirportTest extends \PHPUnit_Framework_TestCase
   public function setUp()
   {
     parent::setUp();
-    $this->airport = new Airport();
     $this->plane = $this->getMock('Plane', ["land", "takeOff"]);
+    $this->weather = $this->getMock('weather', ["isStormy"]);
+    $this->airport = new Airport($this->weather);
   }
 
   public function test1StoresPlaneInHangerOnLanding()
@@ -30,6 +31,9 @@ class AirportTest extends \PHPUnit_Framework_TestCase
 
   public function test3PlaneRemovesPlaneOnTakeOff()
   {
+    $this->weather->expects($this->once())
+         ->method("isStormy")
+         ->will($this->returnValue(''));
     $this->airport->instructToLand($this->plane);
     $this->airport->instructToTakeOff($this->plane);
 
@@ -38,8 +42,23 @@ class AirportTest extends \PHPUnit_Framework_TestCase
 
   public function test4PlaneTakeOffMethodCalled()
   {
+    $this->weather->expects($this->once())
+         ->method("isStormy")
+         ->will($this->returnValue(''));
     $this->plane->expects($this->once())
          ->method("takeOff");
+
+    $this->airport->instructToTakeOff($this->plane);
+  }
+
+  public function test5PlaneCannotTakeOffWhenStormy()
+  {
+    $this->weather->expects($this->once())
+           ->method("isStormy")
+           ->will($this->returnValue('it is stormy'));
+    $this->airport->instructToLand($this->plane);
+
+    $this->setExpectedException(\RuntimeException::class);
 
     $this->airport->instructToTakeOff($this->plane);
   }
