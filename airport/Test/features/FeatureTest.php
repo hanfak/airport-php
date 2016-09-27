@@ -59,7 +59,7 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
     $airport->instructToLand($plane);
 
     $this->setExpectedException(\RuntimeException::class);
-    $airport->instructToTakeOff();
+    $airport->instructToTakeOff($plane);
     // Check plane has not left airport
     $this->assertContains($plane, $airport->viewHanger());
     $this->assertTrue($plane->isAtAiport());
@@ -138,6 +138,20 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
 
     $this->setExpectedException(\RuntimeException::class);
     $airport->instructToLand($plane);
+  }
+
+  /** @test */
+  public function UserStory8()
+  {
+    $plane = new Plane();
+    $weather = $this->getMock('weather', ["isStormy"]);
+    $weather->expects($this->any())
+         ->method("isStormy")
+         ->will($this->returnValue(false));
+    $airport = new Airport($weather);
+
+    $this->setExpectedException(\RuntimeException::class);
+    $airport->instructToTakeOff($plane);
   }
 
 }

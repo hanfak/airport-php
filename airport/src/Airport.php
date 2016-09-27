@@ -24,11 +24,13 @@ class Airport
     array_push($this->planes, $plane);
   }
 
-  public function instructToTakeOff()
+  public function instructToTakeOff($plane)
   {
-    $this->checkPlaneCanTakeOff();
-    $plane = array_pop($this->planes);
-    $plane->takeOff();
+    $this->checkPlaneCanTakeOff($plane);
+    if(in_array($plane, $this->planes)) {
+      unset($this->planes[array_search($plane,$this->planes)]);
+      $plane->takeOff();
+    }
   }
 
   public function viewHanger()
@@ -49,10 +51,13 @@ class Airport
     }
   }
 
-  private function checkPlaneCanTakeOff()
+  private function checkPlaneCanTakeOff($plane)
   {
     if($this->weather->isStormy()) {
       throw new \RuntimeException("it is stormy to take off");
+    }
+    if(!in_array($plane, $this->planes)) {
+      throw new \RuntimeException("Cannot take off, plane not at aiport");
     }
   }
 }

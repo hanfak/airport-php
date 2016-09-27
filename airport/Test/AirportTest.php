@@ -42,7 +42,7 @@ class AirportTest extends \PHPUnit_Framework_TestCase
          ->method("isStormy")
          ->will($this->returnValue(false));
     $this->airport->instructToLand($this->plane);
-    $this->airport->instructToTakeOff();
+    $this->airport->instructToTakeOff($this->plane);
 
     $this->assertEquals(0, sizeof($this->airport->viewHanger()));
   }
@@ -57,7 +57,7 @@ class AirportTest extends \PHPUnit_Framework_TestCase
     $this->plane->expects($this->once())
          ->method("takeOff");
 
-    $this->airport->instructToTakeOff();
+    $this->airport->instructToTakeOff($this->plane);
   }
 
   public function test5PlaneCannotTakeOffWhenStormy()
@@ -72,7 +72,7 @@ class AirportTest extends \PHPUnit_Framework_TestCase
 
     $this->setExpectedException(\RuntimeException::class);
 
-    $this->airport->instructToTakeOff();
+    $this->airport->instructToTakeOff($this->plane);
   }
 
   public function test6PlaneCannotLandWhenStormy()
@@ -102,7 +102,7 @@ class AirportTest extends \PHPUnit_Framework_TestCase
     $this->airport->instructToLand($this->plane);
   }
 
-  public function test8ChangeTheCapacity()
+  public function test9ChangeTheCapacity()
   {
     $this->weather->expects($this->any())
            ->method("isStormy")
@@ -119,7 +119,7 @@ class AirportTest extends \PHPUnit_Framework_TestCase
     $this->airport1->instructToLand($this->plane1);
   }
 
-  public function test8CannotLandPlaneIfAtAirport()
+  public function test10CannotLandPlaneIfAtAirport()
   {
     $this->weather->expects($this->any())
            ->method("isStormy")
@@ -129,5 +129,16 @@ class AirportTest extends \PHPUnit_Framework_TestCase
     $this->setExpectedException(\RuntimeException::class);
 
     $this->airport->instructToLand($this->plane);
+  }
+
+  public function test11CannotTakeOffIfNotAtAirport()
+  {
+    $this->weather->expects($this->any())
+           ->method("isStormy")
+           ->will($this->returnValue(false));
+
+    $this->setExpectedException(\RuntimeException::class);
+
+    $this->airport->instructToTakeOff($this->plane);
   }
 }
