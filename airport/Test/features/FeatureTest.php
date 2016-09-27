@@ -30,7 +30,7 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
     $weather = $this->getMock('weather', ["isStormy"]);
     $weather->expects($this->once())
          ->method("isStormy")
-         ->will($this->returnValue(null));
+         ->will($this->returnValue(false));
      $airport = new Airport($weather);
 
     $airport->instructToLand($plane);
@@ -50,7 +50,7 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
     $weather = $this->getMock('weather', ["isStormy"]);
     $weather->expects($this->once())
          ->method("isStormy")
-         ->will($this->returnValue('it is stormy'));
+         ->will($this->returnValue(true));
     $airport = new Airport($weather);
 
     $airport->instructToLand($plane);

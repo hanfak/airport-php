@@ -20,7 +20,7 @@ class Airport
 
   public function instructToTakeOff($plane)
   {
-    if($this->weather->isStormy() === 'it is stormy') {
+    if($this->weather->isStormy()) {
       throw new \RuntimeException("it is stormy to take off");
     }
     $plane->takeOff();

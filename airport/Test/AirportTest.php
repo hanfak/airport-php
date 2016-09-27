@@ -33,7 +33,7 @@ class AirportTest extends \PHPUnit_Framework_TestCase
   {
     $this->weather->expects($this->once())
          ->method("isStormy")
-         ->will($this->returnValue(''));
+         ->will($this->returnValue(false));
     $this->airport->instructToLand($this->plane);
     $this->airport->instructToTakeOff($this->plane);
 
@@ -44,7 +44,7 @@ class AirportTest extends \PHPUnit_Framework_TestCase
   {
     $this->weather->expects($this->once())
          ->method("isStormy")
-         ->will($this->returnValue(''));
+         ->will($this->returnValue(false));
     $this->plane->expects($this->once())
          ->method("takeOff");
 
@@ -55,7 +55,7 @@ class AirportTest extends \PHPUnit_Framework_TestCase
   {
     $this->weather->expects($this->once())
            ->method("isStormy")
-           ->will($this->returnValue('it is stormy'));
+           ->will($this->returnValue(true));
     $this->airport->instructToLand($this->plane);
 
     $this->setExpectedException(\RuntimeException::class);
