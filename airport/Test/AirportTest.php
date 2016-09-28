@@ -69,9 +69,6 @@ class AirportTest extends \PHPUnit_Framework_TestCase
       ->will($this->returnValue(true));
     $this->airport->instructToLand($this->plane);
 
-    // $this->setExpectedException(\RuntimeException::class);
-    // $this->airport->instructToTakeOff($this->plane);
-
     try {
       $this->airport->instructToTakeOff($this->plane);
     }

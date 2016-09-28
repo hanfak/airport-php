@@ -58,12 +58,16 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
 
     $airport->instructToLand($plane);
 
-    $this->setExpectedException(\RuntimeException::class);
-    
-    $airport->instructToTakeOff($plane);
-    // Check plane has not left airport
-    $this->assertContains($plane, $airport->viewHanger());
-    $this->assertTrue($plane->isAtAiport());
+    try {
+      $airport->instructToTakeOff($plane);
+    }
+    catch (\RuntimeException $ex) {
+        $this->assertEquals($ex->getMessage(), "it is stormy cannot take off");
+        $this->assertContains($plane, $airport->viewHanger());
+        $this->assertTrue($plane->isAtAiport());
+        return;
+    }
+    $this->fail("Expected Exception has not been raised.");
   }
 
   /** @test */
@@ -77,12 +81,16 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
          ->will($this->returnValue(true));
     $airport = new Airport($weather);
 
-    $this->setExpectedException(\RuntimeException::class);
-
-    $airport->instructToLand($plane);
-    // Check plane has not arrived at airport
-    $this->assertEmpty($PlanesInAirport);
-    $this->assertFalse($plane->isAtAiport());
+    try {
+      $airport->instructToLand($plane);
+    }
+    catch (\RuntimeException $ex) {
+        $this->assertEquals($ex->getMessage(), "it is stormy to land");
+        $this->assertEmpty($airport->viewHanger());
+        $this->assertFalse($plane->isAtAiport());
+        return;
+    }
+    $this->fail("Expected Exception has not been raised.");
   }
 
   /** @test */
@@ -99,13 +107,18 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
 
     $airport->instructToLand($plane1);
 
-    $this->setExpectedException(\RuntimeException::class);
-    $airport->instructToLand($plane2);
-
-    $this->assertContains($plane1, $airport->viewHanger());
-    $this->assertFalse(in_array($plane2, $airport->viewHanger()));
-    $this->assertTrue($plane1->isAtAiport());
-    $this->assertFalse($plane2->isAtAiport());
+    try {
+      $airport->instructToLand($plane2);
+    }
+    catch (\RuntimeException $ex) {
+        $this->assertEquals($ex->getMessage(), "Cannot land, airport is full");
+        $this->assertContains($plane1, $airport->viewHanger());
+        $this->assertFalse(in_array($plane2, $airport->viewHanger()));
+        $this->assertTrue($plane1->isAtAiport());
+        $this->assertFalse($plane2->isAtAiport());
+        return;
+    }
+    $this->fail("Expected Exception has not been raised.");
   }
 
   /** @test */
@@ -123,9 +136,14 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
       $airport->instructToLand(new Plane());
     }
 
-    $this->setExpectedException(\RuntimeException::class);
-
-    $airport->instructToLand($plane);
+    try {
+      $airport->instructToLand($plane);
+    }
+    catch (\RuntimeException $ex) {
+        $this->assertEquals($ex->getMessage(), "Cannot land, airport is full");
+        return;
+    }
+    $this->fail("Expected Exception has not been raised.");
   }
 
   /** @test */
@@ -139,9 +157,14 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
     $airport = new Airport($weather);
     $airport->instructToLand($plane);
 
-    $this->setExpectedException(\RuntimeException::class);
-
-    $airport->instructToLand($plane);
+    try {
+      $airport->instructToLand($plane);
+    }
+    catch (\RuntimeException $ex) {
+        $this->assertEquals($ex->getMessage(), "Cannot land, plane already at aiport");
+        return;
+    }
+    $this->fail("Expected Exception has not been raised.");
   }
 
   /** @test */
@@ -154,8 +177,13 @@ class FeatureTest extends \PHPUnit_Framework_TestCase
          ->will($this->returnValue(false));
     $airport = new Airport($weather);
 
-    $this->setExpectedException(\RuntimeException::class);
-
-    $airport->instructToTakeOff($plane);
+    try {
+      $airport->instructToTakeOff($plane);
+    }
+    catch (\RuntimeException $ex) {
+        $this->assertEquals($ex->getMessage(), "Cannot take off, plane not at aiport");
+        return;
+    }
+    $this->fail("Expected Exception has not been raised.");
   }
 }
