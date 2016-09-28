@@ -69,9 +69,17 @@ class AirportTest extends \PHPUnit_Framework_TestCase
       ->will($this->returnValue(true));
     $this->airport->instructToLand($this->plane);
 
-    $this->setExpectedException(\RuntimeException::class);
+    // $this->setExpectedException(\RuntimeException::class);
+    // $this->airport->instructToTakeOff($this->plane);
 
-    $this->airport->instructToTakeOff($this->plane);
+    try {
+      $this->airport->instructToTakeOff($this->plane);
+    }
+    catch (\RuntimeException $ex) {
+        $this->assertEquals($ex->getMessage(), "it is stormy cannot take off");
+        return;
+    }
+    $this->fail("Expected Exception has not been raised.");
   }
 
   public function test6PlaneCannotLandWhenStormy()
@@ -80,9 +88,14 @@ class AirportTest extends \PHPUnit_Framework_TestCase
            ->method("isStormy")
            ->will($this->returnValue(true));
 
-    $this->setExpectedException(\RuntimeException::class);
-
-    $this->airport->instructToLand($this->plane);
+    try {
+      $this->airport->instructToLand($this->plane);
+    }
+    catch (\RuntimeException $ex) {
+        $this->assertEquals($ex->getMessage(), "it is stormy to land");
+        return;
+    }
+    $this->fail("Expected Exception has not been raised.");
   }
 
   public function test7PlaneCannotLandWhenAirportIsFull()
@@ -96,9 +109,14 @@ class AirportTest extends \PHPUnit_Framework_TestCase
       $this->airport->instructToLand($diff_plane);
     }
 
-    $this->setExpectedException(\RuntimeException::class);
-
-    $this->airport->instructToLand($this->plane);
+    try {
+      $this->airport->instructToLand($this->plane);
+    }
+    catch (\RuntimeException $ex) {
+        $this->assertEquals($ex->getMessage(), "Cannot land, airport is full");
+        return;
+    }
+    $this->fail("Expected Exception has not been raised.");
   }
 
   public function test8ChangeAirportCapacity()
@@ -115,9 +133,14 @@ class AirportTest extends \PHPUnit_Framework_TestCase
       $this->airport1->instructToLand($diff_plane);
     }
 
-    $this->setExpectedException(\RuntimeException::class);
-
-    $this->airport1->instructToLand($this->plane1);
+    try {
+      $this->airport1->instructToLand($this->plane1);
+    }
+    catch (\RuntimeException $ex) {
+        $this->assertEquals($ex->getMessage(), "Cannot land, airport is full");
+        return;
+    }
+    $this->fail("Expected Exception has not been raised.");
   }
 
   public function test9CannotLandPlaneIfAtAirport()
@@ -127,9 +150,14 @@ class AirportTest extends \PHPUnit_Framework_TestCase
            ->will($this->returnValue(false));
     $this->airport->instructToLand($this->plane);
 
-    $this->setExpectedException(\RuntimeException::class);
-
-    $this->airport->instructToLand($this->plane);
+    try {
+      $this->airport->instructToLand($this->plane);
+    }
+    catch (\RuntimeException $ex) {
+        $this->assertEquals($ex->getMessage(), "Cannot land, plane already at aiport");
+        return;
+    }
+    $this->fail("Expected Exception has not been raised.");
   }
 
   public function test10CannotTakeOffIfNotAtAirport()
@@ -138,8 +166,13 @@ class AirportTest extends \PHPUnit_Framework_TestCase
            ->method("isStormy")
            ->will($this->returnValue(false));
 
-    $this->setExpectedException(\RuntimeException::class);
-
-    $this->airport->instructToTakeOff($this->plane);
+    try {
+      $this->airport->instructToTakeOff($this->plane);
+    }
+    catch (\RuntimeException $ex) {
+        $this->assertEquals($ex->getMessage(), "Cannot take off, plane not at aiport");
+        return;
+    }
+    $this->fail("Expected Exception has not been raised.");
   }
 }

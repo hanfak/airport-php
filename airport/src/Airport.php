@@ -55,7 +55,7 @@ class Airport
   private function checkPlaneCanTakeOff($plane)
   {
     if($this->weather->isStormy()) {
-      throw new \RuntimeException("it is stormy to take off");
+      throw new \RuntimeException("it is stormy cannot take off");
     }
     if(!in_array($plane, $this->planes)) {
       throw new \RuntimeException("Cannot take off, plane not at aiport");
